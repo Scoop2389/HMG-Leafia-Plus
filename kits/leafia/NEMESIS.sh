@@ -262,7 +262,7 @@ dmesg 2>/dev/null | grep -E 'tcc-sdhc: SDHC|SDIO card|DHD generic adapter|Firmwa
     done >> "$SUM"
 
 # our own logs: install steps, file names and checksums only
-for _l in $PKG wireless.projection projection.tbt wireless.carplay.bt carplay.wifi.audio; do
+for _l in $PKG wireless.projection projection.tbt wireless.carplay.bt carplay.wifi.audio leafia.bridge; do
     copy_file "$N/$_l.log" "$PUB/logs/$_l.log"
 done
 
@@ -282,8 +282,12 @@ for _f in $N/logs/* $N/logs/*/*; do
     [ "$_n" != "$_rel" ] && _n="${_n}_${_rel#*/}"
     copy_file "$_f" "$LOGS/nemesis-logs/$_n"
 done
+# LeafiaBridge's own log: holds destination names, so private only
+for _f in /data/data/io.github.vyssecodes.leafia.bridge/files/leafia-bridge.log*; do
+    copy_file "$_f" "$LOGS/${_f##*/}"
+done
 logcat -d -v time -s TccCarPlay:V CarPlay_:V DiPOManager:V Iap2Server:V iAP2:V GalReceiver:V GPM:V \
-    PhoneProjection:V BTCMStateMachine:I LeafiaAAC:V EV6AAC:V AndroidRuntime:V DEBUG:V ActivityManager:W \
+    PhoneProjection:V BTCMStateMachine:I LeafiaAAC:V EV6AAC:V LeafiaBridge:V AndroidRuntime:V DEBUG:V ActivityManager:W \
     PackageManager:W > "$LOGS/logcat-projection.txt" 2>&1
 logcat -d -v time '*:W' > "$LOGS/logcat-warnings.txt" 2>&1
 # the tags above are best guesses; the full buffers catch whatever they miss

@@ -29,6 +29,7 @@ Security problems go through [SECURITY.md](SECURITY.md), not public issues.
 | `patches/` | Per-car patch sets that rebuild the projection apps from the car's own stock files, and `cars` (which product id uses which set). See [patches/README.md](patches/README.md). |
 | `recipes/` | Byte-checked native-library patches applied by `lpatch`. |
 | `tools/lpatch/` | `lpatch`, the small static ARM tool that patches on the head unit. |
+| `apps/leafiabridge/` | LeafiaBridge, our own app the patched apps forward data to (see its README). |
 | `src/libleafia/` | `libleafia.so`, the AAC/Opus audio converter for wireless CarPlay. |
 | `kits/leafia/` | The read-only USB kit: compatibility report, problem summary, and private logs, stock files and keys. |
 | `docs/` | The compatibility website (GitHub Pages). |
