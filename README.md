@@ -22,6 +22,7 @@ Firmware differs between models, regions and versions, so whole-file checksums r
 | Wireless projection | Enables the wireless CarPlay/AA feature flags for the unit's own region folder. Hotspot only: no Wi-Fi client, no extra Wi-Fi menu. | Feature files + config edits, all restored on uninstall |
 | CarPlay Wi-Fi sessions | Lets `libCarPlayCore` accept Wi-Fi sessions | `carplay-core-wifi.recipe` |
 | CarPlay wireless audio | Offers AAC (music) and Opus (Siri, calls, mic) over Wi-Fi, decoded with the unit's own codecs | `carplay-audio-formats.recipe`, `carplay-utils-converter.recipe` + `libleafia.so` |
+| Projection settings menu | On US/Canada units, Settings > Phone Projection keeps opening Device Connections (CarPlay split screen, connected phones), as on stock firmware; applied only where the Bluetooth settings app is the stock one the fix was made for | `patches/common/optional` (`HKMC_BtSettings`) |
 | CarPlay Bluetooth bridge | Starts wireless CarPlay over Bluetooth/iAP2 | Rebuilt on the unit from its stock apps (`patches/<car>`) |
 | Turn-by-turn | Projection navigation on the cluster and HUD | Rebuilt on the unit from its stock apps (`patches/<car>`). Uses only the standard cluster calls, so cars without a HUD are fine. The installer refuses if the firmware lacks any call it needs. |
 
@@ -44,7 +45,9 @@ Something wrong? Open an issue with the [problem form](../../issues/new?template
 
 ## Supported head units
 
-See the [compatibility page](https://vyssecodes.github.io/HMG-Leafia-Plus/). The data lives in `docs/data/compat.json`.
+See the [compatibility page](https://vyssecodes.github.io/HMG-Leafia-Plus/). The data lives in `docs/data/compat.json` (cars with a build) and `docs/data/wanted.json` (Gen5W cars we'd like to add).
+
+**Newest firmware only.** We support each car's newest head unit software: currently **260507** in the US and Canada and **260902** in Korea. On older firmware the package installs wireless Android Auto only (basic mode) and asks you to update; use the free Hyundai, Kia or Genesis Navigation Updater, then install again.
 
 ## The Leafia kit (run from a USB drive through NEMESIS)
 

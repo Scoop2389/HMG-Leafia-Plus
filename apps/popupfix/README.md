@@ -6,6 +6,6 @@ The popup ("Android Auto and Apple CarPlay are the supported Phone Projection op
 
 This app has exactly that package and page name. The page has no screen of its own: it opens the head unit's real **Device Connections** screen (`com.daudio.app.phoneprojection/.settings.ui.DeviceConnectionSettings`), passing on the popup's own extras (`from_micom_popup`, which Device Connections reads), and closes. No stock file changes.
 
-It's installed by part `5_leafiabridge` as `/system/app/LeafiaPopupFix.apk`, and only where no app with that package name already exists. Uninstall removes it.
+It's installed by part `6_leafiabridge` as `/system/app/LeafiaPopupFix.apk`, and only where no app with that package name already exists. Uninstall removes it.
 
 Build: `apps/build.sh popupfix <out.apk>` (see `apps/leafiabridge/README.md` for signing).

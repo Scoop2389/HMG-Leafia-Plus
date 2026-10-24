@@ -69,7 +69,7 @@ jobs:
           out() { if hit "$2"; then v=true; else v=false; fi; echo "$1=$v" | tee -a "$GITHUB_OUTPUT"; }
           out lpatch  '^(tools/lpatch/|recipes/|tools/mkdelta\.py|tools/mkrecipe\.py)'
           out libleafia '^(src/libleafia/|packages/wireless-carplay-aa/comp/4_audio/files/libleafia\.so)'
-          out leafiabridge '^(apps/|packages/wireless-carplay-aa/comp/5_leafiabridge/files/)'
+          out leafiabridge '^(apps/|packages/wireless-carplay-aa/comp/6_leafiabridge/files/)'
           out kits    '^(kits/|docs/downloads/|recipes/|tools/build-kit\.sh|tools/check-downloads\.sh|tools/lpatch/lpatch$)'
           out package '^(packages/|patches/|recipes/|tools/build-package\.sh|tools/lpatch/lpatch$)'
 
@@ -148,7 +148,7 @@ jobs:
         # the runner's JDK 17; d8, aapt2 and android.jar are fetched at pinned SHA-256
         run: |
           javac -version
-          f=packages/wireless-carplay-aa/comp/5_leafiabridge/files
+          f=packages/wireless-carplay-aa/comp/6_leafiabridge/files
           for a in leafiabridge:LeafiaBridge popupfix:LeafiaPopupFix; do
             ./apps/build.sh "${a%%:*}" --check "$f/${a#*:}.apk"
             jarsigner -verify -certs "$f/${a#*:}.apk" | tail -1
