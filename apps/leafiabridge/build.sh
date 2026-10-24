@@ -5,6 +5,7 @@
 #                                                      signed with our release key
 #        apps/leafiabridge/build.sh --check <apk>      rebuild and compare the code and
 #                                                      manifest of a (signed) APK, as CI does
+#        apps/leafiabridge/build.sh --tools-only       only fetch the pinned tools (hooks/build.sh)
 #
 # Needs a JDK (javac, jarsigner), python3 and curl. The Android tools come from
 # Google at pinned versions and are checked against SHA-256 before use:
@@ -19,9 +20,11 @@ VERSION_CODE=1
 VERSION_NAME=0.1.0-dryrun
 
 CHECK=""
+TOOLS_ONLY=""
+[ "$1" = --tools-only ] && TOOLS_ONLY=1
 if [ "$1" = --check ]; then CHECK=$2; [ -f "$CHECK" ] || { echo "no such APK: $CHECK" >&2; exit 2; }; fi
 OUT=${CHECK:+}; [ -n "$CHECK" ] || OUT=$1
-[ -n "$CHECK" ] || [ -n "$OUT" ] || { sed -n '2,9p' "$0" | sed 's/^# \{0,1\}//'; exit 2; }
+[ -n "$CHECK" ] || [ -n "$OUT" ] || [ -n "$TOOLS_ONLY" ] || { sed -n "2,10p" "$0" | sed 's/^# \{0,1\}//'; exit 2; }
 case "$OUT" in ''|/*) ;; *) OUT=$(pwd)/$OUT ;; esac
 
 fetch() {   # fetch <url> <file> <sha256>
@@ -42,6 +45,7 @@ fetch $G/repository/android-19_r04.zip android-19_r04.zip \
 [ -x "$CACHE/aapt2" ] || { unzip -o -q "$CACHE/aapt2-9.4.1-15978811-linux.jar" aapt2 -d "$CACHE"; chmod 755 "$CACHE/aapt2"; }
 [ -f "$CACHE/android-19.jar" ] || unzip -p "$CACHE/android-19_r04.zip" android-4.4.2/android.jar > "$CACHE/android-19.jar"
 JAR=$CACHE/android-19.jar
+[ -n "$TOOLS_ONLY" ] && exit 0
 
 W=$(mktemp -d)
 trap 'rm -rf "$W"' EXIT
