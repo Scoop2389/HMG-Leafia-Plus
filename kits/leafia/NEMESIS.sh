@@ -185,7 +185,7 @@ for _f in /system/app/HKMC_GPM.apk /system/app/HKMC_GPM.odex /system/app/HKMC_Di
           /system/app/Iap2ServerApp.apk /system/app/Iap2ServerApp.odex /system/app/HKMC_Navi_ExSL.apk \
           /system/app/HKMC_Navi_ExSL.odex /system/app/PhoneProjection.apk /system/app/PhoneProjection.odex \
           /system/lib/libautoreceiver_infobank.so /system/lib/libCarPlayCore.so /system/lib/libCarPlayAudio.so \
-          /system/lib/libCarPlayUtils.so /system/lib/libev6aac.so /system/lib/libstagefright_soft_aacdec.so \
+          /system/lib/libCarPlayUtils.so /system/lib/libleafia.so /system/lib/libev6aac.so /system/lib/libstagefright_soft_aacdec.so \
           /system/lib/libopus.so /system/framework/automotive.odex /system/framework/framework.odex; do
     sum_file "$_f"
 done
@@ -283,7 +283,7 @@ for _f in $N/logs/* $N/logs/*/*; do
     copy_file "$_f" "$LOGS/nemesis-logs/$_n"
 done
 logcat -d -v time -s TccCarPlay:V CarPlay_:V DiPOManager:V Iap2Server:V iAP2:V GalReceiver:V GPM:V \
-    PhoneProjection:V BTCMStateMachine:I EV6AAC:V AndroidRuntime:V DEBUG:V ActivityManager:W \
+    PhoneProjection:V BTCMStateMachine:I LeafiaAAC:V EV6AAC:V AndroidRuntime:V DEBUG:V ActivityManager:W \
     PackageManager:W > "$LOGS/logcat-projection.txt" 2>&1
 logcat -d -v time '*:W' > "$LOGS/logcat-warnings.txt" 2>&1
 # the tags above are best guesses; the full buffers catch whatever they miss
