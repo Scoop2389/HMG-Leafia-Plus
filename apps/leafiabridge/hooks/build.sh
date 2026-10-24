@@ -8,7 +8,7 @@ HERE=$(cd "$(dirname "$0")" && pwd)
 OUT=$1
 [ -n "$OUT" ] || { sed -n '2,5p' "$0" | sed 's/^# \{0,1\}//'; exit 2; }
 CACHE=${XDG_CACHE_HOME:-$HOME/.cache}/hmg-leafia/android-tools
-"$HERE/../build.sh" --tools-only
+"$HERE/../../build.sh" --tools-only
 SMALI=${BAKSMALI:-$HOME/.local/share/smali/baksmali-2.5.2.jar}
 W=$(mktemp -d)
 trap 'rm -rf "$W"' EXIT

@@ -1,15 +1,19 @@
 #!/system/bin/sh
 . ./scripts/common.sh
 log "preuninstall leafia.bridge"
-[ -e "$APK" ] || { log "LeafiaBridge.apk not installed - nothing to do"; exit 0; }
-sys_rw || { log "FAIL: remount /system rw"; exit 1; }
-if ! sum_eq "$APK" "$SUM_APK"; then
-    log "WARN: $APK is not ours - leaving it alone"
-    sys_ro
-    exit 0
-fi
-rm -f "$APK" || { log "FAIL: remove $APK"; sys_ro; exit 1; }
+_rw=""
+while read -r _a _m; do
+    [ -e "$APPDIR/$_a" ] || continue
+    if ! sum_eq "$APPDIR/$_a" "$_m"; then
+        log "WARN: $APPDIR/$_a is not ours - leaving it alone"
+        continue
+    fi
+    [ -n "$_rw" ] || { sys_rw || { log "FAIL: remount /system rw"; exit 1; }; _rw=1; }
+    rm -f "$APPDIR/$_a" || { log "FAIL: remove $APPDIR/$_a"; sys_ro; exit 1; }
+    log "removed $_a - PackageManager drops the app and its data at the next boot"
+done <<EOF
+$APKS
+EOF
 sync
-sys_ro
-log "removed LeafiaBridge.apk - PackageManager drops the app and its data at the next boot"
+[ -n "$_rw" ] && sys_ro
 exit 0

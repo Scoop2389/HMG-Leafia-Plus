@@ -1,11 +1,11 @@
 #!/bin/sh
-# Build LeafiaBridge.apk from source.
-# usage: apps/leafiabridge/build.sh <out.apk>          unsigned build
-#        LEAFIA_KEYSTORE=<file> LEAFIA_KEYPASS_FILE=<file> apps/leafiabridge/build.sh <out.apk>
-#                                                      signed with our release key
-#        apps/leafiabridge/build.sh --check <apk>      rebuild and compare the code and
-#                                                      manifest of a (signed) APK, as CI does
-#        apps/leafiabridge/build.sh --tools-only       only fetch the pinned tools (hooks/build.sh)
+# Build one of our Android apps (apps/<app>/: AndroidManifest.xml, src/, version) from source.
+# usage: apps/build.sh <app> <out.apk>           unsigned build
+#        LEAFIA_KEYSTORE=<file> LEAFIA_KEYPASS_FILE=<file> apps/build.sh <app> <out.apk>
+#                                                signed with our release key
+#        apps/build.sh <app> --check <apk>       rebuild and compare the code and manifest
+#                                                of a (signed) APK, as CI does
+#        apps/build.sh --tools-only              only fetch the pinned tools (hooks/build.sh)
 #
 # Needs a JDK (javac, jarsigner), python3 and curl. The Android tools come from
 # Google at pinned versions and are checked against SHA-256 before use:
@@ -14,17 +14,24 @@
 # The code and manifest are byte-for-byte reproducible; only the signature differs
 # between signed builds.
 set -e
-HERE=$(cd "$(dirname "$0")" && pwd)
 CACHE=${XDG_CACHE_HOME:-$HOME/.cache}/hmg-leafia/android-tools
-VERSION_CODE=1
-VERSION_NAME=0.1.0-dryrun
+usage() { sed -n "2,15p" "$0" | sed 's/^# \{0,1\}//'; exit 2; }
 
 CHECK=""
 TOOLS_ONLY=""
-[ "$1" = --tools-only ] && TOOLS_ONLY=1
-if [ "$1" = --check ]; then CHECK=$2; [ -f "$CHECK" ] || { echo "no such APK: $CHECK" >&2; exit 2; }; fi
-OUT=${CHECK:+}; [ -n "$CHECK" ] || OUT=$1
-[ -n "$CHECK" ] || [ -n "$OUT" ] || [ -n "$TOOLS_ONLY" ] || { sed -n "2,10p" "$0" | sed 's/^# \{0,1\}//'; exit 2; }
+OUT=""
+if [ "$1" = --tools-only ]; then
+    TOOLS_ONLY=1
+else
+    [ -n "$1" ] && [ -f "$(dirname "$0")/$1/AndroidManifest.xml" ] || usage
+    HERE=$(cd "$(dirname "$0")/$1" && pwd)
+    . "$HERE/version"
+    if [ "$2" = --check ]; then
+        CHECK=$3; [ -f "$CHECK" ] || { echo "no such APK: $CHECK" >&2; exit 2; }
+    else
+        OUT=$2; [ -n "$OUT" ] || usage
+    fi
+fi
 case "$OUT" in ''|/*) ;; *) OUT=$(pwd)/$OUT ;; esac
 
 fetch() {   # fetch <url> <file> <sha256>

@@ -30,6 +30,7 @@ Security problems go through [SECURITY.md](SECURITY.md), not public issues.
 | `recipes/` | Byte-checked native-library patches applied by `lpatch`. |
 | `tools/lpatch/` | `lpatch`, the small static ARM tool that patches on the head unit. |
 | `apps/leafiabridge/` | LeafiaBridge, our own app the patched apps forward data to (see its README). |
+| `apps/popupfix/` | LeafiaPopupFix: makes the projection popup's Settings button open Device Connections. |
 | `src/libleafia/` | `libleafia.so`, the AAC/Opus audio converter for wireless CarPlay. |
 | `kits/leafia/` | The read-only USB kit: compatibility report, problem summary, and private logs, stock files and keys. |
 | `docs/` | The compatibility website (GitHub Pages). |

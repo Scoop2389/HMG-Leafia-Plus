@@ -15,8 +15,8 @@ Log: logcat tag `LeafiaBridge`, and `files/leafia-bridge.log` in the app's data 
 ## Building
 
 ```
-apps/leafiabridge/build.sh /tmp/LeafiaBridge.apk            # unsigned, for checks
-apps/leafiabridge/build.sh --check <LeafiaBridge.apk>       # compare an APK with the source (CI)
+apps/build.sh leafiabridge /tmp/LeafiaBridge.apk           # unsigned, for checks
+apps/build.sh leafiabridge --check <LeafiaBridge.apk>      # compare an APK with the source (CI)
 ```
 
 Needs a JDK 17, `python3` and `curl`; `d8`, `aapt2` and the API 19 `android.jar` are downloaded from Google at pinned SHA-256. The code and manifest are byte-for-byte reproducible.
@@ -24,7 +24,7 @@ Needs a JDK 17, `python3` and `curl`; `d8`, `aapt2` and the API 19 `android.jar`
 The shipped APK (`packages/wireless-carplay-aa/comp/5_leafiabridge/files/LeafiaBridge.apk`) is signed with the maintainer's release key, which never leaves the maintainer's computer. Android only accepts an update to an installed system app with the same key, so every release must be signed with it:
 
 ```
-LEAFIA_KEYSTORE=<keystore> LEAFIA_KEYPASS_FILE=<password file> apps/leafiabridge/build.sh <out.apk>
+LEAFIA_KEYSTORE=<keystore> LEAFIA_KEYPASS_FILE=<password file> apps/build.sh leafiabridge <out.apk>
 ```
 
 After a rebuild, update `SUM_APK` in `comp/5_leafiabridge/scripts/common.sh`. CI checks that the shipped APK's code and manifest match this source.
