@@ -1,4 +1,4 @@
-package io.github.vyssecodes.leafia.bridge;
+package leafia.bridge;
 
 /** One route update, as forwarded by a projection app. */
 final class Route {

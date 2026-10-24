@@ -1,4 +1,4 @@
-package io.github.vyssecodes.leafia.bridge;
+package leafia.bridge;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.content.Intent;
 /**
  * Route updates from the patched projection apps.
  *
- * Action io.github.vyssecodes.leafia.bridge.ROUTE, sent only to this package.
+ * Action leafia.bridge.ROUTE, sent only to this package.
  * Extras (missing ones are left at their defaults):
  *   source     "carplay" (later also "androidauto")
  *   state      route guidance state as the phone reports it (iAP2: 0 no route,
@@ -17,7 +17,7 @@ import android.content.Intent;
  *   timeS      time remaining, seconds (-1 unknown)
  */
 public class RouteReceiver extends BroadcastReceiver {
-    static final String ACTION = "io.github.vyssecodes.leafia.bridge.ROUTE";
+    static final String ACTION = "leafia.bridge.ROUTE";
 
     @Override
     public void onReceive(Context ctx, Intent i) {

@@ -10,7 +10,7 @@ ROOT=${LEAFIA_TEST_ROOT:-}
 
 LOG=$ROOT/data/nemesis/leafia.bridge.log
 APK=$ROOT/system/app/LeafiaBridge.apk
-SUM_APK=13aeca863ac9df62937d9b1e5ff96e2a
+SUM_APK=29540918d05c317d7a421a9d40413714
 
 log() {
     echo "$1"

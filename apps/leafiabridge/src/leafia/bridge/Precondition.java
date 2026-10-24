@@ -1,4 +1,4 @@
-package io.github.vyssecodes.leafia.bridge;
+package leafia.bridge;
 
 import android.content.Context;
 import android.content.SharedPreferences;

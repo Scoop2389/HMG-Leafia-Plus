@@ -3,12 +3,12 @@
      The patched stock apps forward their data here; this app decides what to do.
      This build is a dry run: it logs what it would do and sends nothing to the car. -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="io.github.vyssecodes.leafia.bridge">
+    package="leafia.bridge">
 
     <!-- only system apps (our patched DiPO runs as system) or apps signed with our
          key may send route updates, so no other app can fake a trip -->
     <permission
-        android:name="io.github.vyssecodes.leafia.bridge.permission.FORWARD"
+        android:name="leafia.bridge.permission.FORWARD"
         android:protectionLevel="signature|system" />
 
     <application
@@ -20,9 +20,9 @@
         <receiver
             android:name=".RouteReceiver"
             android:exported="true"
-            android:permission="io.github.vyssecodes.leafia.bridge.permission.FORWARD">
+            android:permission="leafia.bridge.permission.FORWARD">
             <intent-filter>
-                <action android:name="io.github.vyssecodes.leafia.bridge.ROUTE" />
+                <action android:name="leafia.bridge.ROUTE" />
             </intent-filter>
         </receiver>
 

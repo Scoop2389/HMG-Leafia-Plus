@@ -283,7 +283,7 @@ for _f in $N/logs/* $N/logs/*/*; do
     copy_file "$_f" "$LOGS/nemesis-logs/$_n"
 done
 # LeafiaBridge's own log: holds destination names, so private only
-for _f in /data/data/io.github.vyssecodes.leafia.bridge/files/leafia-bridge.log*; do
+for _f in /data/data/leafia.bridge/files/leafia-bridge.log*; do
     copy_file "$_f" "$LOGS/${_f##*/}"
 done
 logcat -d -v time -s TccCarPlay:V CarPlay_:V DiPOManager:V Iap2Server:V iAP2:V GalReceiver:V GPM:V \

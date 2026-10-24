@@ -1,4 +1,4 @@
-package io.github.vyssecodes.leafia.bridge;
+package leafia.bridge;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

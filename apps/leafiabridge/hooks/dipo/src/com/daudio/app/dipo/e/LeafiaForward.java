@@ -15,7 +15,7 @@ import android.os.SystemClock;
  * cluster): invoke-static {v0}, Lcom/daudio/app/dipo/e/LeafiaForward;->route(Ljava/lang/Object;)V
  */
 public final class LeafiaForward {
-    private static final String PKG = "io.github.vyssecodes.leafia.bridge";
+    private static final String PKG = "leafia.bridge";
     private static final String ACTION = PKG + ".ROUTE";
     private static final long REPEAT_MS = 10000;   // an unchanged update goes out at most every 10 s
 
