@@ -1,5 +1,7 @@
 #!/system/bin/sh
 . ./scripts/common.sh
+# every way out of this run starts again whatever it, or an earlier run, stopped
+trap apps_release EXIT
 log "postinstall wireless.carplay.aa"
 check_legacy || { toast "Install failed: uninstall the separate wireless/projection packages first, reboot, then try again."; exit 1; }
 check_remount || { toast "Install failed: could not unlock the system partition. Reboot the head unit and try again."; exit 1; }
@@ -8,9 +10,7 @@ if [ "$MODE" = basic ]; then
     log "basic mode: $MODE_WHY - installing: $(part_name 1_projection)"
     has_wifi_module || { log "FAIL: this head unit has no Wi-Fi module"; exit 1; }
 fi
-apps_release
 apps_hold "$PARTS"
-trap apps_release EXIT
 _done=""
 for _p in $PARTS; do
     _step=pre
