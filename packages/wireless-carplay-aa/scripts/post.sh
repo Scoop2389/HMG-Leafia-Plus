@@ -8,6 +8,9 @@ if [ "$MODE" = basic ]; then
     log "basic mode: $MODE_WHY - installing: $(part_name 1_projection)"
     has_wifi_module || { log "FAIL: this head unit has no Wi-Fi module"; exit 1; }
 fi
+apps_release
+apps_hold "$PARTS"
+trap apps_release EXIT
 _done=""
 for _p in $PARTS; do
     _step=pre
@@ -21,11 +24,13 @@ for _p in $PARTS; do
     log "FAIL: $(part_name $_p) did not install ($_step step) - undoing: ${_done:-nothing}"
     if [ -n "$_done" ] && ! uninstall_parts "$_done"; then
         log "FAIL: undo incomplete - see /data/nemesis/*.log before rebooting"
+        apps_release
         toast "Install failed and could not be fully undone. Do not reboot yet - check the NEMESIS logs."
         exit 1
     fi
     clean_build
     sync
+    apps_release
     log "unit is back to stock - reboot the head unit"
     if [ "$_step" = pre ]; then
         # the part's checks rejected this unit's files
@@ -38,6 +43,7 @@ done
 clean_build
 echo "$PARTS" > "$PARTS_FILE" || log "WARN: could not record installed parts in $PARTS_FILE"
 adb_net_fix
+apps_release
 sync
 if [ -n "$EV6_TEST_ROOT" ]; then log "test mode - not rebooting"; exit 0; fi
 log "all parts installed ($MODE mode: $PARTS) - rebooting"

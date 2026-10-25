@@ -210,6 +210,8 @@ say "--- framework odex"
 ls -l /system/framework/*.odex >> "$SUM" 2>&1
 
 section "projection settings"
+say "stopped by an unfinished install: $(cat /data/nemesis/wireless.carplay.aa.stopped 2>/dev/null)"
+say "disabled projection apps: $(pm list packages -d 2>/dev/null | grep -E 'projection.sink|dipo|iap2server|mnsoft.navi|btsettings' | tr '\n' ' ')"
 for _p in persist.ium.support persist.sys.iap2.wifi persist.sys.iap2.btconnection persist.iap2.iden.wireless \
           persist.wifi.state; do
     say "$_p=$(getprop $_p 2>/dev/null)"
