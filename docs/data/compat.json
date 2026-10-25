@@ -31,7 +31,9 @@
       "built": {
         "/system/app/HKMC_BtSettings.apk": [
           "93ecaa97597a79be2a10728e45c72b33",
-          "cd98c36db6857ed174757c6010a36494"
+          "b977e268fbe73cb5637c4413647a7dea",
+          "cd98c36db6857ed174757c6010a36494",
+          "e7c90e78f45f7e6b9c90ddd7a238b566"
         ],
         "/system/app/HKMC_DiPO.apk": [
           "c40739d474cd39ff3625ed73bfcd5b1c",
@@ -45,6 +47,56 @@
         ],
         "/system/app/Iap2ServerApp.apk": [
           "1963dbc98b343111e237240ae059f850",
+          "7e90fa7d8a161ade71e11dc15e56c410"
+        ],
+        "/system/lib/libautoreceiver_infobank.so": [
+          "c08410a8d32a615b1aa805cd8a243d52"
+        ]
+      }
+    },
+    {
+      "id": "kia-ev6-ca-260206",
+      "name": "Kia EV6",
+      "region": "Canada",
+      "chip": "TCC803x",
+      "product_prefix": "CVEV.CAN.",
+      "years": "2022–2024",
+      "firmware": "V015.011.260206",
+      "status": "testing",
+      "verified": [
+        "Sandbox install and uninstall on this firmware's own files"
+      ],
+      "notes": "Canada's 260206 runs the same projection code as the US 260507, so it uses the EV6 build; awaiting the first real-car test.",
+      "stock": {
+        "/system/app/HKMC_DiPO.apk": "e804f5785698387e27fa8875d1db625f",
+        "/system/app/HKMC_DiPO.odex": "a565e180fdb0b73d6520f28c91cdba63",
+        "/system/app/HKMC_GPM.apk": "9e06512ccc9090338082ad38c74a223d",
+        "/system/app/HKMC_GPM.odex": "96cd7c27a9db19acb3900f21f57ea9f0",
+        "/system/app/HKMC_Navi_ExSL.apk": "19559e742b1d21550aa8f0324e8e6d36",
+        "/system/app/HKMC_Navi_ExSL.odex": "9cf41f78ce312b3762b354714d12eec3",
+        "/system/app/Iap2ServerApp.apk": "fde208439f993986a60396e759797a01",
+        "/system/app/Iap2ServerApp.odex": "03950e4b691f846e5478a5a69818c65e",
+        "/system/lib/libautoreceiver_infobank.so": "48ee793af8b86052503b8c952b034731"
+      },
+      "built": {
+        "/system/app/HKMC_BtSettings.apk": [
+          "93ecaa97597a79be2a10728e45c72b33",
+          "b977e268fbe73cb5637c4413647a7dea",
+          "cd98c36db6857ed174757c6010a36494",
+          "e7c90e78f45f7e6b9c90ddd7a238b566"
+        ],
+        "/system/app/HKMC_DiPO.apk": [
+          "08b5e445074a8a752b81685ea26e2bd7",
+          "2305945c78c415995b44ba76a1467210"
+        ],
+        "/system/app/HKMC_GPM.apk": [
+          "00190bafc073e0a96e43fa87d9930b7b"
+        ],
+        "/system/app/HKMC_Navi_ExSL.apk": [
+          "496ef30d2c7f8260f25bd14d62c646c2"
+        ],
+        "/system/app/Iap2ServerApp.apk": [
+          "75d7fea4d2009be6aa5c840118f58c94",
           "7e90fa7d8a161ade71e11dc15e56c410"
         ],
         "/system/lib/libautoreceiver_infobank.so": [
@@ -84,7 +136,9 @@
       "built": {
         "/system/app/HKMC_BtSettings.apk": [
           "93ecaa97597a79be2a10728e45c72b33",
-          "cd98c36db6857ed174757c6010a36494"
+          "b977e268fbe73cb5637c4413647a7dea",
+          "cd98c36db6857ed174757c6010a36494",
+          "e7c90e78f45f7e6b9c90ddd7a238b566"
         ],
         "/system/app/HKMC_DiPO.apk": [
           "9a73d5ae6354e2f980de775741bdddd3",
@@ -102,6 +156,56 @@
         ],
         "/system/lib/libautoreceiver_infobank.so": [
           "c08410a8d32a615b1aa805cd8a243d52"
+        ]
+      }
+    },
+    {
+      "id": "hyundai-ioniq5-ca-260206",
+      "name": "Hyundai Ioniq 5",
+      "region": "Canada",
+      "chip": "TCC803x",
+      "product_prefix": "NEEV.CAN.",
+      "years": "2022",
+      "firmware": "V015.011.260206",
+      "status": "testing",
+      "verified": [
+        "Sandbox install and uninstall on this firmware’s own files"
+      ],
+      "notes": "Ported from the US Ioniq 5 build; its Android Auto library differs from the US one, so it has its own turn-by-turn patch. Awaiting the first real-car test.",
+      "stock": {
+        "/system/app/HKMC_DiPO.apk": "740312d716c6c20bdda096c3f3ab01f2",
+        "/system/app/HKMC_DiPO.odex": "528ebc9a58b567a1b283dcc2bf6b457b",
+        "/system/app/HKMC_GPM.apk": "132fdd537a655e0f12f63b5636f5e686",
+        "/system/app/HKMC_GPM.odex": "d994d696db846d93713138854a9837f3",
+        "/system/app/HKMC_Navi_ExSL.apk": "eb38eeffd6800cb7fff4a888f7939efd",
+        "/system/app/HKMC_Navi_ExSL.odex": "b513d46184229efcd18eab84d30013c3",
+        "/system/app/Iap2ServerApp.apk": "fde208439f993986a60396e759797a01",
+        "/system/app/Iap2ServerApp.odex": "43c40662352937dd2c25a154dfa60b9d",
+        "/system/lib/libautoreceiver_infobank.so": "a0bea1c4992ea983a8190c4e032d7190"
+      },
+      "built": {
+        "/system/app/HKMC_BtSettings.apk": [
+          "93ecaa97597a79be2a10728e45c72b33",
+          "b977e268fbe73cb5637c4413647a7dea",
+          "cd98c36db6857ed174757c6010a36494",
+          "e7c90e78f45f7e6b9c90ddd7a238b566"
+        ],
+        "/system/app/HKMC_DiPO.apk": [
+          "3570a5cadffa7547540cd74a9a4212cb",
+          "f5e50d0207d965a5090973326f47ce1b"
+        ],
+        "/system/app/HKMC_GPM.apk": [
+          "7762633876c529af327004ae0496c43a"
+        ],
+        "/system/app/HKMC_Navi_ExSL.apk": [
+          "ae47bc1ea21d6ed24ac12978d72216a3"
+        ],
+        "/system/app/Iap2ServerApp.apk": [
+          "75d7fea4d2009be6aa5c840118f58c94",
+          "7e90fa7d8a161ade71e11dc15e56c410"
+        ],
+        "/system/lib/libautoreceiver_infobank.so": [
+          "84321500e6921b9222d5b91ff3ca75b2"
         ]
       }
     }
