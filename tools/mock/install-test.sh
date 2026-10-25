@@ -22,6 +22,8 @@
 #                           leaves it); checks the switch to persist.adb.tcp.port and back
 #   MOCK_HAS_DEVICECONNECTIONS=1  the unit already has an app named
 #                           com.daudio.app.deviceconnections: LeafiaPopupFix must be skipped
+#   MOCK_WIFI_CLIENT=1      LEAFIA-WIFI-CLIENT on the install drive: part 1 also turns on
+#                           the Wi-Fi client (implies MOCK_USB_DESCRIPTOR=1)
 #   MOCK_NO_WIFI=1          a unit whose Wi-Fi chip never responds (no wlan0, driver
 #                           gives up): the install must be refused
 #
@@ -105,6 +107,7 @@ find "$X/pkg" -name '*.sh' | while read -r f; do
         -e "s|^export PATH=$X/stub:$R/data/nemesis/bin:|export PATH=$R/data/nemesis/bin:$X/stub:|" \
         -e "s|^\(export PATH=.*\)$|\1:/usr/bin:/bin|" "$f"
 done
+[ "$MOCK_WIFI_CLIENT" = 1 ] && MOCK_USB_DESCRIPTOR=1 && : > "$R/storage/usb0/LEAFIA-WIFI-CLIENT"
 [ "$MOCK_USB_DESCRIPTOR" = 1 ] && printf '[nemesis]\nversion=1.0\ntype=install\npath=packages/wireless.carplay.aa.zip\n' > "$R/storage/usb0/NEMESIS.data"
 
 (cd "$R" && find system -type f -exec md5sum {} \; | sort -k2) > "$X/before.md5"
