@@ -23,7 +23,8 @@
 #     keys/              firmware key files: never post these anywhere
 #
 # From /data only NEMESIS's own folder, the crash records (tombstones, ANR
-# traces, dropbox crash entries) and the hotspot address leases are read.
+# traces, dropbox crash entries), the hotspot address leases and the names of
+# system apps' entries in the Dalvik cache are read.
 # Never collected: accounts, paired phone data, Wi-Fi passwords, the vehicle
 # security partition, VIN or serial numbers.
 export PATH=/sbin:/vendor/bin:/system/sbin:/system/bin:/system/xbin
@@ -192,9 +193,28 @@ for _f in /system/app/HKMC_GPM.apk /system/app/HKMC_GPM.odex /system/app/HKMC_Di
     sum_file "$_f"
 done
 say "--- dalvik-cache entries"
-ls -l /data/dalvik-cache 2>/dev/null | grep -E 'GPM|DiPO|Iap2|Navi_ExSL|PhoneProjection' >> "$SUM"
+ls -l /data/dalvik-cache 2>/dev/null | grep -E 'GPM|DiPO|Iap2|Navi_ExSL|PhoneProjection|BtSettings' >> "$SUM"
+
+# What Dalvik checks an app's optimised code against: the boot classpath and dexopt flags it
+# runs with, the framework files (a changed one makes every odex stale), and which system apps
+# it re-optimised into the cache. Only system@ cache names: never the names of installed apps.
+section "dalvik"
+say "BOOTCLASSPATH (this shell)=$BOOTCLASSPATH"
+# Android 4.4 sets it in init.environ.rc; older units in init.rc
+for _rc in /init.environ.rc /init.rc; do
+    grep -h 'export BOOTCLASSPATH' "$_rc" 2>/dev/null | while IFS= read -r _l; do say "${_rc##*/}:${_l#*BOOTCLASSPATH}"; done
+done
+for _p in dalvik.vm.dexopt-flags dalvik.vm.checkjni dalvik.vm.heapsize; do
+    say "$_p=$(getprop $_p 2>/dev/null)"
+done
+say "system@ entries in /data/dalvik-cache: $(ls /data/dalvik-cache 2>/dev/null | grep -c '^system@')"
+ls -l /data/dalvik-cache 2>/dev/null | grep ' system@' >> "$SUM"
+say "--- framework odex"
+ls -l /system/framework/*.odex >> "$SUM" 2>&1
 
 section "projection settings"
+say "stopped by an unfinished install: $(echo $(cat /data/nemesis/wireless.carplay.aa.stopped 2>/dev/null))"
+say "disabled projection apps: $(echo $(pm list packages -d 2>/dev/null | grep -E 'projection.sink|dipo|iap2server|mnsoft.navi|btsettings'))"
 for _p in persist.ium.support persist.sys.iap2.wifi persist.sys.iap2.btconnection persist.iap2.iden.wireless \
           persist.wifi.state; do
     say "$_p=$(getprop $_p 2>/dev/null)"

@@ -47,6 +47,13 @@ wipe_dalvik() {
 write_odex() {
     if [ -z "$BOOTCLASSPATH" ]; then
         export BOOTCLASSPATH=/system/framework/core.jar:/system/framework/conscrypt.jar:/system/framework/okhttp.jar:/system/framework/core-junit.jar:/system/framework/bouncycastle.jar:/system/framework/ext.jar:/system/framework/framework.jar:/system/framework/framework2.jar:/system/framework/telephony-common.jar:/system/framework/voip-common.jar:/system/framework/mms-common.jar:/system/framework/android.policy.jar:/system/framework/services.jar:/system/framework/apache-xml.jar:/system/framework/webviewchromium.jar:/system/framework/automotive.jar
+        DEXOPT_BCP_FROM=fallback
+    fi
+    # once per part: what dexopt builds the odex against, for comparing with the running system
+    if [ -z "$DEXOPT_LOGGED" ]; then
+        DEXOPT_LOGGED=1
+        log "dexopt boot classpath (${DEXOPT_BCP_FROM:-environment}): $BOOTCLASSPATH"
+        log "dexopt flags m=y,u=n; system dalvik.vm.dexopt-flags=$(getprop dalvik.vm.dexopt-flags 2>/dev/null)"
     fi
     [ -x /system/bin/dexopt ] || return 1
     /system/bin/dexopt --preopt "$LIVE_APK" "$LIVE_ODEX" "m=y,u=n" || return 1
@@ -70,6 +77,32 @@ snapshot() {
     return 0
 }
 
+# Our APKs carry classes.dex, so at boot the package manager looks for the app in the Dalvik
+# cache (not at the odex beside it) and, finding nothing, re-optimises it before the head unit
+# finishes starting. The cache entry is the same optimised file as the odex, so put it there
+# now. If Dalvik ever rejects it, it rebuilds it at boot as before.
+prefill_dalvik() {
+    local _odex="$1"
+    local _apk="$2"
+    local _cache="/data/dalvik-cache/system@app@${_apk##*/}@classes.dex"
+    [ -s "$_odex" ] || return 0
+    [ -d /data/dalvik-cache ] || return 0
+    rm -f "${_cache}.tmp" 2>/dev/null || true
+    if ! cp -f "$_odex" "${_cache}.tmp" 2>/dev/null || ! cmp "$_odex" "${_cache}.tmp" >/dev/null 2>&1; then
+        rm -f "${_cache}.tmp" 2>/dev/null || true
+        log "dalvik cache not filled for ${_apk##*/}; boot will optimize"
+        return 0
+    fi
+    chmod 644 "${_cache}.tmp" 2>/dev/null || true
+    chown 1000:1000 "${_cache}.tmp" 2>/dev/null || chown 1000.1000 "${_cache}.tmp" 2>/dev/null || true
+    mv "${_cache}.tmp" "$_cache" 2>/dev/null || { rm -f "${_cache}.tmp" 2>/dev/null; return 0; }
+    if [ -x /system/bin/restorecon ]; then
+        restorecon "$_cache" 2>/dev/null || true
+    fi
+    log "dalvik cache filled for ${_apk##*/}"
+    return 0
+}
+
 apply() {
     put_file "$NEW_APK" "$LIVE_APK" || { log "FAIL: write $LIVE_APK"; return 1; }
     rm -f "$LIVE_ODEX" 2>/dev/null
@@ -80,6 +113,7 @@ apply() {
         log "dexopt failed for $APP; boot will optimize"
     fi
     wipe_dalvik
+    prefill_dalvik "$LIVE_ODEX" "$LIVE_APK"
     return 0
 }
 
